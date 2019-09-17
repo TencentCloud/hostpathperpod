@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      run: nginx
+  template:
+    metadata:
+      labels:
+        run: nginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        volumeMounts:
+        - mountPath: /tmp
+          name: test
+      volumes:
+      - flexVolume:
+          driver: cloud.tencent.com/hostpathperpod
+          options:
+            hostPath: /root/test
+        name: test
